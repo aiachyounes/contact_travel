@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--La vue liste du model-->
+    <record id="voyage_view_tree" model="ir.ui.view"> 
+        <field name="name">voyage_view_tree</field>
+        <field name="model">voyage</field>
+        <field name="arch" type="xml">
+            <tree string="Voyage">
+                <field name="name" />
+                <field name="departureDate" />
+                <field name="returnDate" />
+                <field name="destination" />
+                <field name="currency_id" invisible="1" />
+                <field name="price" sum="Total"/>
+                <field name="partner_id" />
+            </tree>
+        </field>
+    </record>
+    
+    <!--La vue formulaire du model-->
+    <record id="voyage_view_form" model="ir.ui.view">
+        <field name="name">voyage_view_form</field>
+        <field name="model">voyage</field>
+        <field name="arch" type="xml">
+            <form string="Voyage">
+                <sheet>
+                    <group>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" />
+                            </h1>
+                        </div>
+                    </group>
+                    <group>
+                        <field name="departureDate" />
+                        <field name="returnDate" />
+                        <field name="destination" />
+                        <field name="currency_id" invisible="1" />
+                        <field name="price" />
+                        <field name="partner_id" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--Action-->
+    <record id="voyage_action" model="ir.actions.act_window">
+        <field name="name">Voyages</field>
+        <field name="res_model">voyage</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p>
+                <h1>
+                    Créer vos voyages ici.
+                </h1>
+            </p>
+        </field>
+    </record>
+    <!--Menu-->
+    <menuitem
+        id="voyage_menu"
+        action="voyage_action"
+        name="Voyage"
+        sequence="10"/>
+
+    <record id="partner_form_inherit" model="ir.ui.view">
+        <field name="name">partner_form_view_inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/div" position="inside">
+                <button name="get_voyages" type="object" icon="fa-fighter-jet">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="count_travels" />
+                        </span>
+                        <span class="o_stat_text">
+                            Voyage
+                        </span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="rec_levels" />
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="currency_id" invisible="1" />
+                <field name="total_despense" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
